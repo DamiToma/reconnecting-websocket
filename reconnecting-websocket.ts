@@ -66,6 +66,7 @@ export default class ReconnectingWebSocket {
         message: [],
         open: [],
         close: [],
+        maxRetriesReached: [],
     };
     private _retryCount = -1;
     private _uptimeTimeout: any;
@@ -360,6 +361,7 @@ export default class ReconnectingWebSocket {
         } = this._options;
 
         if (this._retryCount >= maxRetries) {
+            this.dispatchEvent({ type: `maxRetriesReached`});
             this._debug('max retries reached', this._retryCount, '>=', maxRetries);
             return;
         }
